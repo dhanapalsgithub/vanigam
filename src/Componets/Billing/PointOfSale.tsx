@@ -359,7 +359,7 @@ export function PointOfSale() {
       const dateStr = now.toLocaleDateString('en-GB');
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-      let billHeader = `\n${SIZE_BIG}${BOLD_ON}GS Supermarket ${SIZE_NORMAL}.${BOLD_OFF}\n` +
+      let billHeader = `\n${SIZE_BIG}${BOLD_ON}Vanigam ${SIZE_NORMAL}.${BOLD_OFF}\n` +
         `Fresh Vegetables & Fruits\n` +
         `Main Road, Kovur, Chennai - 69\n--------------------------------\n` +
         `Mob: 9360380276\n--------------------------------\n` +
