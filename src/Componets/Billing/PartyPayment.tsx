@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import { AddCard, AccountBalanceWallet, Person, Payments, History, Search, Delete } from '@mui/icons-material';
 
 // Point of Sale & Google Apps Script-ல் பயன்படுத்தப்படும் அதே URL
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwO6j5rzaFkVUQyYeFWNTT1k-kdx6P4M61iPH1pSlQFXa04al99FyR982zoqJb3VdXl4g/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyAZ2OIGBTA5e8VAWyf5PE8bbc0pjW6dAex8V9E97JSqBDHhMRNL_gGaiAnXmh6K_7i/exec";
 
 const PartyPayment: React.FC = () => {
   const [parties, setParties] = useState<any[]>([]);

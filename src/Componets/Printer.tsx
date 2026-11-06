@@ -275,7 +275,7 @@ export function PointOfSale() {
 
       // ... மீதி fetch கோட் ...
 
-      const scriptURL = "https://script.google.com/macros/s/AKfycby6SFDrCC0fylRk7JakWvhK53ZR9Vt3LgBdSH81FW6KaxXmdYa0Ii84tMyD-UvSwIcm/exec";
+      const scriptURL = "https://script.google.com/macros/s/AKfycbyAZ2OIGBTA5e8VAWyf5PE8bbc0pjW6dAex8V9E97JSqBDHhMRNL_gGaiAnXmh6K_7i/exec";
 
       // 'response' ஐ பயன்படுத்தாததால் எர்ரர் வருகிறது, எனவே நேரடியாக await செய்யவும்
       await fetch(scriptURL, {

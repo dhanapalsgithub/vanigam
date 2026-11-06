@@ -20,7 +20,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwO6j5rzaFkVUQyYeFWNTT1k-kdx6P4M61iPH1pSlQFXa04al99FyR982zoqJb3VdXl4g/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAZ2OIGBTA5e8VAWyf5PE8bbc0pjW6dAex8V9E97JSqBDHhMRNL_gGaiAnXmh6K_7i/exec";
 const COLORS = ['#4318FF', '#05CD99', '#FFB547', '#FF5B5B', '#6AD2FF', '#707EAE', '#8E44AD'];
 
 export function Reports() {

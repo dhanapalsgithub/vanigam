@@ -70,7 +70,7 @@ export const InvoiceBill = () => {
 
     // GOOGLE SHEETS SAVE LOGIC
     const saveToGoogleSheet = async () => {
-        const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbw_rfjw70CGoK3rDEE36ZEkEc7rYTUtIJqUeNwQvfObAOsf3-GF0LQDuM9mDOMNOkQI/exec";
+        const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyAZ2OIGBTA5e8VAWyf5PE8bbc0pjW6dAex8V9E97JSqBDHhMRNL_gGaiAnXmh6K_7i/exec";
 
         const sheetPayload = {
             billNo: "TAXINV",

@@ -81,7 +81,7 @@ export const Dashboard = () => {
   const [activeMonth, setActiveMonth] = useState<string | null>(null);
   const [activeDate, setActiveDate] = useState<string | null>(null);
 
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwO6j5rzaFkVUQyYeFWNTT1k-kdx6P4M61iPH1pSlQFXa04al99FyR982zoqJb3VdXl4g/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAZ2OIGBTA5e8VAWyf5PE8bbc0pjW6dAex8V9E97JSqBDHhMRNL_gGaiAnXmh6K_7i/exec";
   const monthsArr = ["Jan", "Feb", "Mar", "Apr", "May", "june", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   // --- DATA LOADING WITH STRING DATE FIX & CUSTOMER GST DETAILS ---
@@ -179,7 +179,7 @@ export const Dashboard = () => {
         if (!blob) return;
         if (navigator.share) {
           const file = new File([blob], `Bill_${selectedInvoice.billNo}.png`, { type: 'image/png' });
-          await navigator.share({ files: [file], title: 'Niranjana Enterprises' });
+          await navigator.share({ files: [file], title: 'Vanigam' });
         }
       }, 'image/png');
     } catch (error) { console.error(error); }
@@ -236,7 +236,7 @@ export const Dashboard = () => {
       const logoBytes = await getImageBytes('/logo-5121.png', 150);
       if (logoBytes) await sendLargeData(char, logoBytes);
 
-      let header = `Niranjana Enterprises\nChennai - 600069\n9043707705\n--------------------------------\n` +
+      let header = `Vanigam\nChennai - 600069\n9043707705\n--------------------------------\n` +
         `Bill No: ${selectedInvoice.billNo}\n` +
         `DT: ${selectedInvoice.date} | ${selectedInvoice.time}\n`;
 

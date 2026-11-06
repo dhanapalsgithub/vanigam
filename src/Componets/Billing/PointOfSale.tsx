@@ -1,6 +1,6 @@
 import {
   Box, Typography, Button, IconButton, Stack, Grid as Grid,
-  Dialog, DialogTitle, DialogContent, DialogActions, Divider, Checkbox, FormControlLabel, TextField, Chip, Switch
+  Dialog, DialogTitle, DialogContent, DialogActions, Divider, Checkbox, FormControlLabel, TextField, Chip, Switch, Tabs, Tab
 } from '@mui/material';
 import { X, Printer } from 'lucide-react';
 import '../POS.css';
@@ -21,27 +21,57 @@ interface POSItem {
   quantity: number;
   price: number;
   total: number;
-  pkgType?: string;
+  unit?: string;
 }
 
-type Unit = 'kg' | 'pcs' | 'pkt';
+type Unit = 'kg' | 'pcs' | 'pkt' | 'g';
 interface Product {
   id: string;
   name: string;
-  price: number;
-  category: string;
+  defaultPrice: number;
+  category: 'Vegetables' | 'Fruits' | 'Grocery';
   unit: Unit;
-  size: string;
-  type: string;
+  image: string;
 }
 
 const INITIAL_PRODUCTS: Product[] = [
-  { id: 'app_1', name: 'No:01-6inch', price: 0, category: 'Appalam', size: '6inch', type: 'Appalam', unit: 'pkt' },
-  { id: 'app_2', name: 'No:02-5.25inch', price: 0, category: 'Appalam', size: '5.25inch', type: 'Appalam', unit: 'pkt' },
-  { id: 'app_3', name: 'No:03-4.75inch', price: 0, category: 'Appalam', size: '4.75inch', type: 'Appalam', unit: 'pkt' },
-  { id: 'app_4', name: 'No:04-4.25inch', price: 0, category: 'Appalam', size: '4.25inch', type: 'Appalam', unit: 'pkt' },
-  { id: 'app_5', name: 'No:05-4inch', price: 0, category: 'Appalam', size: '4inch', type: 'Appalam', unit: 'pkt' },
-  { id: 'app_6', name: 'No:06-3.25inch', price: 0, category: 'Appalam', size: '3.25inch', type: 'Appalam', unit: 'pkt' },
+  // --- ALL VEGETABLES ---
+  { id: 'veg_1', name: 'Tomato 1kg', defaultPrice: 40, category: 'Vegetables', unit: 'kg', image: '/tomato.jpg' },
+  { id: 'veg_2', name: 'Onion 1kg', defaultPrice: 35, category: 'Vegetables', unit: 'kg', image: '/onion.jpg' },
+  { id: 'veg_3', name: 'Potato 1kg', defaultPrice: 30, category: 'Vegetables', unit: 'kg', image: '/potato.jpg' },
+  { id: 'veg_4', name: 'Carrot 1kg', defaultPrice: 60, category: 'Vegetables', unit: 'kg', image: '/carrot.avif' },
+  { id: 'veg_5', name: 'Beans 1kg', defaultPrice: 70, category: 'Vegetables', unit: 'kg', image: '/beans.jpg' },
+  { id: 'veg_6', name: 'Cabbage 1pc', defaultPrice: 25, category: 'Vegetables', unit: 'pcs', image: '/cabbage.jpg' },
+  { id: 'veg_7', name: 'Cauliflower 1pc', defaultPrice: 35, category: 'Vegetables', unit: 'pcs', image: '/cauliflower.jpg' },
+  { id: 'veg_8', name: 'Green Chilli 250g', defaultPrice: 20, category: 'Vegetables', unit: 'pkt', image: '/chilli.jpg' },
+  { id: 'veg_9', name: 'Lemon 10pcs', defaultPrice: 30, category: 'Vegetables', unit: 'pkt', image: '/lemon.jpg' },
+  { id: 'veg_10', name: 'Brinjal 1kg', defaultPrice: 45, category: 'Vegetables', unit: 'kg', image: '/brinjal.jpg' },
+  { id: 'veg_11', name: 'Ladies Finger 1kg', defaultPrice: 40, category: 'Vegetables', unit: 'kg', image: '/ladiesfinger.jpg' },
+  { id: 'veg_12', name: 'Beetroot 1kg', defaultPrice: 50, category: 'Vegetables', unit: 'kg', image: '/beetroot.jpg' },
+  { id: 'veg_13', name: 'Capsicum 1kg', defaultPrice: 65, category: 'Vegetables', unit: 'kg', image: '/capsicum.jpg' },
+  { id: 'veg_14', name: 'Bitter Gourd 1kg', defaultPrice: 50, category: 'Vegetables', unit: 'kg', image: '/bittergourd.jpg' },
+  { id: 'veg_15', name: 'Bottle Gourd 1pc', defaultPrice: 30, category: 'Vegetables', unit: 'pcs', image: '/bottlegourd.jpg' },
+  { id: 'veg_16', name: 'Drumstick 1pkt', defaultPrice: 25, category: 'Vegetables', unit: 'pkt', image: '/drumstick.jpg' },
+  { id: 'veg_17', name: 'Curry Leaves 1pkt', defaultPrice: 10, category: 'Vegetables', unit: 'pkt', image: '/curryleaves.jpg' },
+  { id: 'veg_18', name: 'Coriander Leaves 1pkt', defaultPrice: 10, category: 'Vegetables', unit: 'pkt', image: '/coriander.avif' },
+
+  // --- ALL FRUITS ---
+  { id: 'fru_1', name: 'Apple 1kg', defaultPrice: 160, category: 'Fruits', unit: 'kg', image: '/apple.webp' },
+  { id: 'fru_2', name: 'Banana 1 Dozen', defaultPrice: 60, category: 'Fruits', unit: 'pkt', image: '/banana.jpg' },
+  { id: 'fru_3', name: 'Pomegranate 1kg', defaultPrice: 180, category: 'Fruits', unit: 'kg', image: '/pomegranate.jpg' },
+  { id: 'fru_4', name: 'Grapes 1kg', defaultPrice: 90, category: 'Fruits', unit: 'kg', image: '/grapes.jfif' },
+  { id: 'fru_5', name: 'Mango 1kg', defaultPrice: 120, category: 'Fruits', unit: 'kg', image: '/mango.jpg' },
+  { id: 'fru_6', name: 'Orange 1kg', defaultPrice: 80, category: 'Fruits', unit: 'kg', image: '/orange.jfif' },
+  { id: 'fru_7', name: 'Papaya 1pc', defaultPrice: 50, category: 'Fruits', unit: 'pcs', image: '/papaya.jpg' },
+  { id: 'fru_8', name: 'Watermelon 1pc', defaultPrice: 70, category: 'Fruits', unit: 'pcs', image: '/watermelon.jpg' },
+  { id: 'fru_9', name: 'Pineapple 1pc', defaultPrice: 60, category: 'Fruits', unit: 'pcs', image: '/pineapple.webp' },
+  { id: 'fru_10', name: 'Muskmelon 1pc', defaultPrice: 50, category: 'Fruits', unit: 'pcs', image: '/muskmelon.jpg' },
+
+  // --- GROCERY ---
+  { id: 'g_1', name: 'Basmati Rice 1kg', defaultPrice: 120, category: 'Grocery', unit: 'kg', image: '/rice.jpg' },
+  { id: 'g_2', name: 'Toor Dal 1kg', defaultPrice: 140, category: 'Grocery', unit: 'kg', image: '/dal.png' },
+  { id: 'g_3', name: 'Sunflower Oil 1L', defaultPrice: 130, category: 'Grocery', unit: 'pcs', image: '/oil.png' },
+  { id: 'g_4', name: 'Sugar 1kg', defaultPrice: 45, category: 'Grocery', unit: 'kg', image: '/sugar.png' },
 ];
 
 let cachedDevice: any = null;
@@ -53,16 +83,18 @@ export function PointOfSale() {
   const [paymentMode, setPaymentMode] = useState<'CASH' | 'SCANNER'>('CASH');
   const [discount, setDiscount] = useState(0);
   const [showDiscountInput, setShowDiscountInput] = useState(false);
+  const [selectedTab, setSelectedTab] = useState<'Vegetables' | 'Fruits' | 'Grocery'>('Vegetables');
 
-  // Selected item for Package Modal
+  // Pop-up Flow States
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [showPkgModal, setShowPkgModal] = useState(false);
+  const [step, setStep] = useState<'QTY' | 'RATE'>('QTY');
+  const [tempQty, setTempQty] = useState<string>('1');
+  const [tempRate, setTempRate] = useState<string>('0');
+  const [showModal, setShowModal] = useState(false);
 
-  // Focus tracking state for newly added item rate input
   const [focusId, setFocusId] = useState<string | null>(null);
   const rateInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
 
-  // Products State
   const [productsList] = useState<Product[]>(INITIAL_PRODUCTS);
 
   // Customer & GST States
@@ -98,7 +130,6 @@ export function PointOfSale() {
     }
   }, [cart]);
 
-  // Focus Rate Input when new item is added
   useEffect(() => {
     if (focusId && rateInputRefs.current[focusId]) {
       rateInputRefs.current[focusId]?.focus();
@@ -116,58 +147,60 @@ export function PointOfSale() {
   const finalTotal = Math.round(discountedSubtotal + cgstAmount + sgstAmount);
   const noOfItems = cart.length;
 
-  // Tile Click handler -> open modal
   const handleTileClick = (product: Product) => {
     setSelectedProduct(product);
-    setShowPkgModal(true);
+    setTempQty('1');
+    setTempRate(product.defaultPrice.toString());
+    setStep('QTY');
+    setShowModal(true);
   };
 
-  // Add Selected Product with default Appalam category to Cart
-  const handleSelectPackage = (pkgType: string) => {
+  const handleQtySubmit = () => {
+    if (!tempQty || Number(tempQty) <= 0) {
+      alert("Please enter a valid quantity!");
+      return;
+    }
+    setStep('RATE');
+  };
+
+  const handleRateSubmit = () => {
     if (!selectedProduct) return;
+    const qty = parseFloat(tempQty) || 1;
+    const price = parseFloat(tempRate) || 0;
     const newId = `${selectedProduct.id}_${Date.now()}`;
-    const mainTitle = `Appalam ${pkgType}`;
-    const subTitle = `[${selectedProduct.name}]`;
 
     setCart(prev => [
       ...prev,
       {
         productId: newId,
-        productName: mainTitle,
-        subDetail: subTitle,
-        quantity: 1,
-        price: 0,
-        total: 0,
-        pkgType: pkgType
+        productName: selectedProduct.name,
+        quantity: qty,
+        price: price,
+        total: qty * price,
+        unit: selectedProduct.unit
       }
     ]);
 
-    setShowPkgModal(false);
+    setShowModal(false);
     setSelectedProduct(null);
     setFocusId(newId);
   };
 
-  // Add Custom / Package directly from bottom bar
-  const handleDirectPackageClick = (pkgName: string) => {
+  const handleDirectCustomClick = () => {
     const newId = `custom_${Date.now()}`;
-    const name = pkgName === 'custom' ? 'Appalam Custom' : `Appalam ${pkgName}`;
     setCart(prev => [...prev, {
       productId: newId,
-      productName: name,
+      productName: 'General Item',
       quantity: 1,
       price: 0,
-      total: 0
+      total: 0,
+      unit: 'pcs'
     }]);
     setFocusId(newId);
   };
 
   const updateCartItemName = (id: string, newName: string) => {
-    setCart(prev => prev.map(item => {
-      if (item.productId === id) {
-        return { ...item, productName: newName };
-      }
-      return item;
-    }));
+    setCart(prev => prev.map(item => item.productId === id ? { ...item, productName: newName } : item));
   };
 
   const updateCartItemRate = (id: string, newRate: number) => {
@@ -189,6 +222,8 @@ export function PointOfSale() {
       return item;
     }));
   };
+
+  const filteredProducts = productsList.filter(p => p.category === selectedTab);
 
   const getImageBytes = async (url: string, printWidth: number = 200): Promise<Uint8Array | null> => {
     try {
@@ -239,20 +274,20 @@ export function PointOfSale() {
         customerAddress: customerAddress || '',
         customerGst: customerGst || '',
         gstEnabled: gstEnabled,
-        items: cart.map(i => `${i.productName} ${i.subDetail || ''}(${i.price}x${i.quantity}Kg)`).join(", "),
+        items: cart.map(i => `${i.productName} (${i.price}x${i.quantity}${i.unit || 'pcs'})`).join(", "),
         subtotal: Math.round(subtotal),
         discount: discount,
         finalTotal: finalTotal,
         paymentMode: paymentMode
       };
-      const scriptURL = "https://script.google.com/macros/s/AKfycbwO6j5rzaFkVUQyYeFWNTT1k-kdx6P4M61iPH1pSlQFXa04al99FyR982zoqJb3VdXl4g/exec";
+      const scriptURL = "https://script.google.com/macros/s/AKfycbyAZ2OIGBTA5e8VAWyf5PE8bbc0pjW6dAex8V9E97JSqBDHhMRNL_gGaiAnXmh6K_7i/exec";
       await fetch(scriptURL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(invoiceData)
       });
-      alert("Appalam Bill Saved Successfully!");
+      alert("Bill Saved Successfully!");
       setBillNo(prev => prev + 1);
       setCart([]);
       setCustomerName('');
@@ -320,21 +355,14 @@ export function PointOfSale() {
         }
       };
 
-      const logoBytes = await getImageBytes('/icon-5121.png', 170);
-      if (logoBytes) {
-        await sendLargeData(char, logoBytes);
-      }
-
       const now = new Date();
       const dateStr = now.toLocaleDateString('en-GB');
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-      let billHeader = `\n${SIZE_BIG}${BOLD_ON}Niranjana Enterprises ${SIZE_NORMAL}.${BOLD_OFF}\n` +
-        `Namma Appalam\n` +
-        `no 13/139,sivashakthi Nagar,sikkarayapuram \n--------------------------------\n` +
-        `chennai-69.\n` +
-        `Mob: 9043707705,8248455168\n--------------------------------\n` +
-        `GST NO: 33BWUPR7527N1ZI\n--------------------------------\n` +
+      let billHeader = `\n${SIZE_BIG}${BOLD_ON}GS Supermarket ${SIZE_NORMAL}.${BOLD_OFF}\n` +
+        `Fresh Vegetables & Fruits\n` +
+        `Main Road, Kovur, Chennai - 69\n--------------------------------\n` +
+        `Mob: 9360380276\n--------------------------------\n` +
         `DT: ${dateStr}  TM: ${timeStr}\nBill No: ${billNo}\n`;
 
       if (customerName || customerPhone || customerAddress || customerGst) {
@@ -345,7 +373,6 @@ export function PointOfSale() {
         if (customerGst) billHeader += `Cust GST: ${customerGst}\n`;
       }
 
-      // Column Header - Fixed width layout matching 32 characters for thermal printer
       billHeader += `----------------------------------------------\n` +
         `${LEFT}${BOLD_ON}Item                Rate         Qty      Amount${BOLD_OFF}\n` +
         `-----------------------------------------------\n`;
@@ -355,22 +382,19 @@ export function PointOfSale() {
       const STYLE_NORMAL = '\x1B\x21\x00';
 
       cart.forEach((item) => {
-        const name = (item.productName || 'Appalam').substring(0, 12).padEnd(15);
+        const name = (item.productName || 'Item').substring(0, 12).padEnd(15);
         const rate = parseFloat(String(item.price)).toFixed(0).padStart(10);
-        const qty = (String(item.quantity) + 'Kg').padStart(9);
+        const qty = (String(item.quantity) + (item.unit || 'pcs')).padStart(9);
         const total = parseFloat(String(item.total)).toFixed(0).padStart(9);
 
         itemsData += `${STYLE_NORMAL}${name} ${rate} ${qty} ${total}\n`;
-        if (item.subDetail) {
-          itemsData += `  ${item.subDetail}\n`;
-        }
         itemsData += `----------------------------------------------\n`;
       });
 
       await sendLargeData(char, itemsData);
 
       let billFooter = `${BOLD_ON}${"Subtotal:".padEnd(10)}Rs.${Math.round(subtotal).toString().padStart(8)}${BOLD_OFF}\n`;
-      billFooter += `${"Total Qty:".padEnd(10)}${totalQty.toString().padStart(11)}Kg\n`;
+      billFooter += `${"Total Qty:".padEnd(10)}${totalQty.toString().padStart(11)}\n`;
       if (discount > 0) {
         billFooter += `${"Discount:".padEnd(10)}-Rs.${Math.round(discount).toString().padStart(8)}\n`;
       }
@@ -397,8 +421,7 @@ export function PointOfSale() {
         }
       }
       await char.writeValue(new Uint8Array([0x1b, 0x21, 0x01]));
-      await char.writeValue(enc.encode(`${CENTER}No Returns or Exchanges on Food Items.\n`));
-      await char.writeValue(enc.encode(`${CENTER}Thank You! Visit Again`));
+      await char.writeValue(enc.encode(`${CENTER}Thank You! Visit Again\n`));
       await char.writeValue(new Uint8Array([0x1b, 0x21, 0x00]));
 
       await new Promise(r => setTimeout(r, 1000));
@@ -426,7 +449,7 @@ export function PointOfSale() {
           customerAddress: customerAddress || '',
           customerGst: customerGst || '',
           gstEnabled,
-          items: cart.map(i => `${i.productName} ${i.subDetail || ''}(${i.price}x${i.quantity}Kg)`).join(", "), 
+          items: cart.map(i => `${i.productName} (${i.price}x${i.quantity}${i.unit || 'pcs'})`).join(", "), 
           subtotal, 
           discount, 
           finalTotal, 
@@ -449,7 +472,7 @@ export function PointOfSale() {
   return (
     <Box className="pos-container" sx={{ bgcolor: '#0b1d42', minHeight: '100vh', color: '#fff', pb: 4 }}>
       <AppHeader
-        title="Appalam Billing"
+        title="Vegetables & Fruits POS"
         onBack={() => {
           if (cart.length > 0) {
             if (confirm("Cart will be cleared! Go back?")) window.history.back();
@@ -461,41 +484,57 @@ export function PointOfSale() {
 
       <Box className="pos-header" sx={{ textAlign: 'center', py: 1 }}>
         <Typography variant="body2" sx={{ opacity: 0.8 }}>{new Date().toLocaleDateString('en-GB')}</Typography>
-        <Typography variant="h6" fontWeight="bold" sx={{ color: '#fff' }}>Niranjana Enterprises</Typography>
-        <Stack direction="row" justifyContent="space-between" px={2} sx={{ mt: 0.5 }}>
-          <Typography variant="caption">Time: {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Typography>
-          <Typography variant="caption">Date: {new Date().toLocaleDateString('en-GB')}</Typography>
-        </Stack>
+        <Typography variant="h6" fontWeight="bold" sx={{ color: '#fff' }}>GS Supermarket - Fresh Section</Typography>
       </Box>
 
-      {/* No:01 to No:06 Product Tiles */}
-      <Box sx={{ px: 1.5, py: 1 }}>
-        <Grid container spacing={1}>
-          {productsList.map(p => (
+      {/* Category Tabs */}
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', px: 1, bgcolor: '#06102b' }}>
+        <Tabs
+          value={selectedTab}
+          onChange={(_e, val) => setSelectedTab(val)}
+          textColor="inherit"
+          indicatorColor="primary"
+          variant="fullWidth"
+          sx={{ '& .MuiTab-root': { color: '#bbb', fontWeight: 'bold' }, '& .Mui-selected': { color: '#ffeb3b !important' } }}
+        >
+          <Tab label="Vegetables" value="Vegetables" />
+          <Tab label="Fruits" value="Fruits" />
+          <Tab label="Grocery" value="Grocery" />
+        </Tabs>
+      </Box>
+
+      {/* Product Tiles Grid with Images */}
+      <Box sx={{ px: 1.5, py: 1, maxHeight: '32vh', overflowY: 'auto' }}>
+        <Grid container spacing={1.5}>
+          {filteredProducts.map(p => (
             <Grid size={4} key={p.id}>
               <Box
                 onClick={() => handleTileClick(p)}
                 sx={{
                   border: '1px solid #ffffff33',
-                  borderRadius: 1.5,
+                  borderRadius: 2,
                   p: 1,
                   cursor: 'pointer',
                   bgcolor: '#ffffff',
                   color: '#0b1d42',
-                  minHeight: 55,
+                  height: 90,
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                  justifyContent: 'space-between',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
                   '&:active': { transform: 'scale(0.97)' }
                 }}
               >
-                <Typography variant="caption" sx={{ fontWeight: 800, fontSize: '0.8rem', color: '#0b1d42' }}>
-                  {p.name.split('-')[0]}
-                </Typography>
-                <Typography variant="caption" sx={{ fontWeight: 600, fontSize: '0.7rem', color: '#555' }}>
-                  {p.name.split('-')[1]}
+                <Box
+                  component="img"
+                  src={p.image}
+                  alt={p.name}
+                  onError={(e: any) => { e.target.src = 'https://via.placeholder.com/40?text=Item'; }}
+                  sx={{ width: 40, height: 40, objectFit: 'contain' }}
+                />
+                <Typography variant="caption" sx={{ fontWeight: 700, fontSize: '0.7rem', color: '#0b1d42', textAlign: 'center', lineHeight: 1.1, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                  {p.name}
                 </Typography>
               </Box>
             </Grid>
@@ -503,38 +542,29 @@ export function PointOfSale() {
         </Grid>
       </Box>
 
-      {/* Package Direct Buttons */}
-      <Box sx={{ px: 1.5, pt: 1 }}>
-        <Typography variant="caption" sx={{ color: '#ccc', fontWeight: 'bold', display: 'block', mb: 0.5 }}>
-          Items package:
-        </Typography>
-        <Stack direction="row" spacing={1}>
-          {['1kg', '1/2kg', 'custom'].map(pkg => (
-            <Chip
-              key={pkg}
-              label={pkg}
-              size="small"
-              clickable
-              onClick={() => handleDirectPackageClick(pkg)}
-              sx={{
-                bgcolor: 'transparent',
-                color: '#fff',
-                border: '1px solid #fff',
-                fontWeight: 'bold',
-                borderRadius: '16px',
-                px: 1,
-                '&:hover': { bgcolor: '#ffffff22' },
-                '&:active': { transform: 'scale(0.95)' }
-              }}
-            />
-          ))}
-        </Stack>
+      {/* Custom Item Add */}
+      <Box sx={{ px: 1.5, pt: 0.5 }}>
+        <Chip
+          label="+ Add Custom Item"
+          size="small"
+          clickable
+          onClick={handleDirectCustomClick}
+          sx={{
+            bgcolor: 'transparent',
+            color: '#fff',
+            border: '1px dashed #fff',
+            fontWeight: 'bold',
+            borderRadius: '16px',
+            px: 1.5,
+            '&:hover': { bgcolor: '#ffffff22' }
+          }}
+        />
       </Box>
 
       {/* Cart List */}
-      <Box className="item-list" sx={{ mt: 1.5, px: 1, flex: 1, minHeight: '160px', maxHeight: '24vh', overflowY: 'auto', bgcolor: '#ffffff0a', borderRadius: 2, mx: 1 }}>
+      <Box className="item-list" sx={{ mt: 1, px: 1, flex: 1, minHeight: '130px', maxHeight: '20vh', overflowY: 'auto', bgcolor: '#ffffff0a', borderRadius: 2, mx: 1 }}>
         <Typography variant="caption" sx={{ px: 1, py: 0.5, color: '#ffeb3b', fontWeight: 'bold', display: 'block' }}>
-          Cart Items (Edit Name, Amount & Qty below):
+          Cart Items (Edit Name, Rate & Qty below):
         </Typography>
         {cart.map((item, index) => (
           <Box key={item.productId} sx={{ p: 1, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
@@ -546,17 +576,12 @@ export function PointOfSale() {
                 <TextField
                   size="small"
                   variant="standard"
-                  placeholder="Enter item name..."
+                  placeholder="Item name..."
                   value={item.productName}
                   onChange={(e) => updateCartItemName(item.productId, e.target.value)}
                   InputProps={{ disableUnderline: true }}
                   sx={{ '& input': { fontWeight: 'bold', fontSize: '0.85rem', p: 0, color: '#fff' }, '& input::placeholder': { color: 'rgba(255,255,255,0.5)', opacity: 1 } }}
                 />
-                {item.subDetail && (
-                  <Typography variant="caption" sx={{ color: '#aaa', display: 'block' }}>
-                    {item.subDetail}
-                  </Typography>
-                )}
               </Grid>
               <Grid size={4} display="flex" alignItems="center" gap={0.5}>
                 <TextField
@@ -566,7 +591,7 @@ export function PointOfSale() {
                   inputRef={(el) => (rateInputRefs.current[item.productId] = el)}
                   value={item.price || ''}
                   onChange={(e) => updateCartItemRate(item.productId, parseFloat(e.target.value))}
-                  sx={{ width: '60px', bgcolor: '#fff', borderRadius: 1, '& input': { p: 0.5, textAlign: 'center', fontSize: '0.85rem', fontWeight: 'bold' } }}
+                  sx={{ width: '55px', bgcolor: '#fff', borderRadius: 1, '& input': { p: 0.5, textAlign: 'center', fontSize: '0.85rem', fontWeight: 'bold' } }}
                 />
                 <Typography variant="caption" sx={{ color: '#fff' }}>×</Typography>
                 <TextField
@@ -577,7 +602,7 @@ export function PointOfSale() {
                   onChange={(e) => updateCartItemQty(item.productId, parseFloat(e.target.value))}
                   sx={{ width: '45px', bgcolor: '#fff', borderRadius: 1, '& input': { p: 0.5, textAlign: 'center', fontSize: '0.85rem' } }}
                 />
-                <Typography variant="caption" sx={{ color: '#fff', fontWeight: 'bold' }}>Kg</Typography>
+                <Typography variant="caption" sx={{ color: '#fff', fontWeight: 'bold' }}>{item.unit || 'pcs'}</Typography>
               </Grid>
               <Grid size={3} display="flex" justifyContent="flex-end" alignItems="center">
                 <Typography variant="body2" fontWeight="bold" sx={{ mr: 1, color: '#4caf50' }}>
@@ -601,7 +626,7 @@ export function PointOfSale() {
       <Box className="footer-actions" sx={{ mt: 'auto', px: 2, pt: 1 }}>
         <Stack direction="row" justifyContent="space-around" mb={1} sx={{ py: 0.5 }}>
           <Typography variant="body2">Items: <b>{noOfItems}</b></Typography>
-          <Typography variant="body2">Total Qty: <b>{totalQty}Kg</b></Typography>
+          <Typography variant="body2">Total Qty: <b>{totalQty}</b></Typography>
         </Stack>
         <Stack direction="row" justifyContent="center" spacing={4} mb={1}>
           <FormControlLabel 
@@ -613,43 +638,67 @@ export function PointOfSale() {
             label={<Typography sx={{ fontSize: '0.85rem', fontWeight: 'bold' }}>SCANNER</Typography>} 
           />
         </Stack>
-        <Button variant="contained" fullWidth sx={{ bgcolor: '#0b1d42', border: '1px solid #fff', py: 1.5, fontWeight: 'bold' }} startIcon={<Printer size={20} />} onClick={() => setShowPreview(true)}>
+        <Button variant="contained" fullWidth sx={{ bgcolor: '#1976d2', border: '1px solid #fff', py: 1.5, fontWeight: 'bold' }} startIcon={<Printer size={20} />} onClick={() => setShowPreview(true)}>
           TOTAL: ₹{finalTotal.toLocaleString('en-IN')} - PREVIEW
         </Button>
       </Box>
 
-      {/* Package Selection Dialog / Popup */}
-      <Dialog open={showPkgModal} onClose={() => setShowPkgModal(false)} fullWidth maxWidth="xs">
+      {/* Quantity & Rate Pop-up Modal */}
+      <Dialog open={showModal} onClose={() => setShowModal(false)} fullWidth maxWidth="xs">
         <DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold', color: '#0b1d42' }}>
-          Select Package Type
+          {step === 'QTY' ? 'Enter Quantity' : 'Confirm Rate (Price)'}
         </DialogTitle>
         <DialogContent sx={{ p: 2, textAlign: 'center' }}>
           <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 2, color: '#333' }}>
             {selectedProduct?.name}
           </Typography>
-          <Stack spacing={1.5} direction="row" justifyContent="center">
-            <Button
-              variant="contained"
-              size="large"
-              fullWidth
-              onClick={() => handleSelectPackage('1Kg')}
-              sx={{ bgcolor: '#0b1d42', color: '#fff', fontWeight: 'bold', py: 1.5 }}
-            >
-              1 KG
-            </Button>
-            <Button
-              variant="contained"
-              size="large"
-              fullWidth
-              onClick={() => handleSelectPackage('1/2Kg')}
-              sx={{ bgcolor: '#1976d2', color: '#fff', fontWeight: 'bold', py: 1.5 }}
-            >
-              1/2 KG
-            </Button>
-          </Stack>
+
+          {step === 'QTY' ? (
+            <Box>
+              <TextField
+                autoFocus
+                fullWidth
+                label={`Quantity (${selectedProduct?.unit || 'pcs'})`}
+                type="number"
+                value={tempQty}
+                onChange={(e) => setTempQty(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleQtySubmit(); }}
+                sx={{ mb: 2 }}
+              />
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleQtySubmit}
+                sx={{ bgcolor: '#0b1d42', color: '#fff', fontWeight: 'bold', py: 1.2 }}
+              >
+                Next (Enter Rate)
+              </Button>
+            </Box>
+          ) : (
+            <Box>
+              <TextField
+                autoFocus
+                fullWidth
+                label="Rate per unit (₹)"
+                type="number"
+                value={tempRate}
+                onChange={(e) => setTempRate(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleRateSubmit(); }}
+                sx={{ mb: 2 }}
+              />
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleRateSubmit}
+                sx={{ bgcolor: '#4caf50', color: '#fff', fontWeight: 'bold', py: 1.2 }}
+              >
+                Add to Bill
+              </Button>
+            </Box>
+          )}
         </DialogContent>
         <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
-          <Button variant="outlined" color="error" onClick={() => setShowPkgModal(false)}>
+          <Button variant="outlined" color="error" onClick={() => setShowModal(false)}>
             Cancel
           </Button>
         </DialogActions>
@@ -657,11 +706,11 @@ export function PointOfSale() {
 
       {/* Preview Dialog */}
       <Dialog open={showPreview} onClose={() => setShowPreview(false)} fullWidth maxWidth="xs">
-        <DialogTitle sx={{ bgcolor: '#fff9c4', textAlign: 'center', fontWeight: 'bold' }}>Appalam Bill Preview</DialogTitle>
+        <DialogTitle sx={{ bgcolor: '#fff9c4', textAlign: 'center', fontWeight: 'bold' }}>Bill Preview</DialogTitle>
         <DialogContent sx={{ p: 2 }}>
           <Box sx={{ textAlign: 'center', mb: 1 }}>
-            <Typography variant="h6" fontWeight="bold">Niranjana Enterprises</Typography>
-            <Typography variant="caption" display="block">Appalam Store, GST: 3BWUPR7527N1ZI</Typography>
+            <Typography variant="h6" fontWeight="bold">GS Supermarket</Typography>
+            <Typography variant="caption" display="block">Fresh Vegetables & Fruits</Typography>
           </Box>
           
           <Divider sx={{ my: 1, borderStyle: 'dashed' }} />
@@ -682,7 +731,7 @@ export function PointOfSale() {
           {cart.map((item, i) => (
             <Box key={i} sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5, borderBottom: '1px dashed #eee', pb: 0.5 }}>
               <Typography variant="body2">
-                {i + 1}. {item.productName} {item.subDetail ? item.subDetail : ''} ({item.price}x{item.quantity}Kg)
+                {i + 1}. {item.productName} ({item.price} × {item.quantity}{item.unit || 'pcs'})
               </Typography>
               <Typography variant="body2">
                 ₹{Number(item.total).toFixed(2)}
