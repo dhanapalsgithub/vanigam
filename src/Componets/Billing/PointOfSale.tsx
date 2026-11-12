@@ -435,7 +435,7 @@ export function PointOfSale() {
         console.error("Cut failed", e);
       }
 
-      const scriptURL = "https://script.google.com/macros/s/AKfycbwO6j5rzaFkVUQyYeFWNTT1k-kdx6P4M61iPH1pSlQFXa04al99FyR982zoqJb3VdXl4g/exec";
+      const scriptURL = "https://script.google.com/macros/s/AKfycbyAZ2OIGBTA5e8VAWyf5PE8bbc0pjW6dAex8V9E97JSqBDHhMRNL_gGaiAnXmh6K_7i/exec";
       await fetch(scriptURL, {
         method: 'POST',
         mode: 'no-cors',
